@@ -223,30 +223,6 @@
   flex: 1;
   box-sizing: border-box;
 }
-@media (max-width: 1200px) {
-  .contact {
-    flex-direction: column;
-    padding: 13vh 13vh;
-  }
-  .fcf-text {
-    margin-bottom: 5vh;
-  }
-}
-@media (max-width: 800px) {
-  .contact {
-    flex-direction: column;
-    padding: 13vh 0 0 0;
-    max-width: 90%;
-    margin: auto;
-  }
-  .fcf-text {
-    margin-bottom: 5vh;
-  }
-  .fcf-text p {
-    margin: auto;
-    text-align: center;
-  }
-}
 .fcf-text h1{
   font-size: 5vh;
   margin-bottom: 5vh;
@@ -378,6 +354,35 @@ input[type="submit"].fcf-btn-block, input[type="reset"].fcf-btn-block, input[typ
 #thank-you-message {
   visibility: hidden;
 }
+@media (max-width: 1200px) {
+  .contact {
+    flex-direction: column;
+    padding: 13vh 13vh;
+  }
+  .fcf-text {
+    margin-bottom: 5vh;
+  }
+}
+@media (max-width: 800px) {
+  .contact {
+    flex-direction: column;
+    padding: 13vh 0 0 0;
+    max-width: 90%;
+    margin: auto;
+  }
+  .fcf-text {
+    margin-bottom: 5vh;
+  }
+  .fcf-text h1 {
+    text-align: center;
+  }
+  .fcf-text p {
+    margin: auto;
+    text-align: center;
+    width: 100%;
+  }
+}
+
 
 
 .footer {
