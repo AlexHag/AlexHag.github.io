@@ -35,6 +35,9 @@
   color: white;
   margin-right: 5vh;
 }
+#header-contact-me-pill:hover {
+  background-color: rgb(220, 220, 220);
+}
 
 
 .first-section {
@@ -67,6 +70,9 @@
   text-decoration: none;
   padding: 3vh 8vh 3vh 8vh;
   border-radius: 5vh;
+}
+.first-section a:hover {
+  background-color: rgb(220, 220, 220);
 }
 @keyframes typing {
   from {
@@ -405,6 +411,9 @@ input[type="submit"].fcf-btn-block, input[type="reset"].fcf-btn-block, input[typ
 }
 .footer a {
   color: white;
+}
+.footer a:hover {
+  color: rgb(220, 220, 220);
 }
 @media (max-width: 1200px) {
   .footer-text {
