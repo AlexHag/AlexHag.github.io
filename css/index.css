@@ -40,7 +40,7 @@
 .first-section {
   background-color: black;
   text-align: center;
-  padding: 15vh;
+  padding: 15vh 0vh;
 }
 .first-section h1 {
   font-size: 11vh;
@@ -78,7 +78,16 @@
     border-color: transparent
   }
 }
-
+@media (max-width: 800px) {
+  .first-section h1 {
+    font-size: 7vh;
+  }
+}
+@media (max-width: 450px) {
+  .first-section p {
+    font-size: 20px;
+  }
+}
 
 .second-section {
   padding: 13vh 27vh;
@@ -110,6 +119,16 @@
   }
   .second-section-item {
     width: 85%;
+  }
+}
+@media (max-width: 800px) {
+  .second-section {
+    padding: 13vh 0 0 0;
+  }
+  .second-section-item {
+    width: 90%;
+    margin: auto;
+    margin-bottom: 13vh;
   }
 }
 
@@ -164,6 +183,36 @@
     padding-right: 5%;
   }
 }
+@media (max-width: 800px) {
+  .third-section {
+    padding: 13vh 0 0 0;
+  }
+  .third-section h1 {
+    max-width: 90%;
+    margin: auto;
+    font-size: 4vh;
+    text-align: center;
+    margin-bottom: 7vh;
+  }
+  .interests {
+    flex-direction: column;
+    margin-bottom: 10vh;
+  }
+  .interests-item {
+    max-width: 90%;
+    margin: auto;
+  }
+  .interests-item p {
+    margin-bottom: 7vh;
+    padding-right: 5%;
+  }
+  .something {
+    max-width: 90%;
+    margin: auto;
+    font-size: 3vh;
+    padding-bottom: 13vh;
+  }
+}
 
 
 .contact {
@@ -181,6 +230,21 @@
   }
   .fcf-text {
     margin-bottom: 5vh;
+  }
+}
+@media (max-width: 800px) {
+  .contact {
+    flex-direction: column;
+    padding: 13vh 0 0 0;
+    max-width: 90%;
+    margin: auto;
+  }
+  .fcf-text {
+    margin-bottom: 5vh;
+  }
+  .fcf-text p {
+    margin: auto;
+    text-align: center;
   }
 }
 .fcf-text h1{
@@ -322,16 +386,32 @@ input[type="submit"].fcf-btn-block, input[type="reset"].fcf-btn-block, input[typ
   color: white;
   display: flex;
   justify-content: space-between;
-  padding: 0 27vh;
   align-items: center;
   font-size: 2.7vh;
+}
+.footer-text {
+  width: 100%;
+  padding: 0 27vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .footer a {
   color: white;
 }
-/* .fooer a:h */
 @media (max-width: 1200px) {
-  .footer {
+  .footer-text {
     padding: 0 13vh;
+  }
+}
+
+@media (max-width: 800px) {
+  .footer {
+    font-size: 1.5vh;
+  }
+  .footer-text {
+    width: 90%;
+    margin: auto;
+    padding: 0;
   }
 }
