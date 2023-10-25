@@ -351,8 +351,10 @@ label.fcf-label {
 input[type="submit"].fcf-btn-block, input[type="reset"].fcf-btn-block, input[type="button"].fcf-btn-block {
   width: 100%;
 }
-#thank-you-message {
+#error-message {
   visibility: hidden;
+  text-align: center;
+  margin-bottom: 20px;
 }
 @media (max-width: 1200px) {
   .contact {

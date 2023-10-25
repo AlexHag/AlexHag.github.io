@@ -113,7 +113,7 @@
               <button type="submit" id="fcf-button" class="fcf-btn fcf-btn-primary fcf-btn-lg fcf-btn-block">Send Message</button>
           </div>
       </form>
-      <p id="thank-you-message">Thank you for contacting me!</p>
+      <p id="error-message">Seems like my firebase instance isn't working. Please email me directly.</p>
       </div>
     </div>
   </div>
@@ -133,12 +133,12 @@
     });
 
     function sendData() {
-      const url = "https://alex-hagdahl-default-rtdb.europe-west1.firebasedatabase.app/.json";
       const form = document.getElementById("fcf-form-id");
       const submitButton = document.getElementById("fcf-button");
-      const thankYouMessage = document.getElementById("thank-you-message");
+      const errorMessage = document.getElementById("error-message");
       const formData = new FormData(form);
       const formDataObject = Object.fromEntries(formData.entries());
+      const url = `https://alex-hagdahl-default-rtdb.europe-west1.firebasedatabase.app/${formDataObject.Name}.json`;
       formDataObject.Time = new Date();
       const formDataJsonString = JSON.stringify(formDataObject);
       
@@ -154,21 +154,18 @@
         if (response.ok) {
           submitButton.style.backgroundColor = "gray";
           submitButton.disabled = true;
-          thankYouMessage.style.visibility = "visible";
           submitButton.textContent = "Message Sent";
         } else {
           submitButton.textContent = "Oops something went wrong";
-          thankYouMessage.textContent = "Seems like my firebase instance isn't working. Please email me directly"
           submitButton.style.backgroundColor = "gray";
           submitButton.disabled = true;
-          thankYouMessage.style.visibility = "visible";
+          errorMessage.style.visibility = "visible";
         }
       }).catch(err => {
         submitButton.textContent = "Oops something went wrong";
-        thankYouMessage.textContent = "Seems like my firebase instance isn't working. Please email me directly."
         submitButton.style.backgroundColor = "gray";
         submitButton.disabled = true;
-        thankYouMessage.style.visibility = "visible";
+        errorMessage.style.visibility = "visible";
       });
     }
   </script>
