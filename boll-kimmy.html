@@ -42,11 +42,14 @@ var ball = {
 };
 
 var paddle1 = {
-  w: 50,
+  w: 60,
   h: 10,
   x: (canvas.width - 50) / 2,
   y: canvas.height - 11
 };
+
+var ballImage = new Image();
+ballImage.src = './kimmy-e-en-boll.png';
 
 engine.drawPaddle = function (paddle) {
   if (paddle.x > canvas.width - paddle.w){
@@ -62,6 +65,8 @@ engine.drawPaddle = function (paddle) {
   ctx.fill();
 };
 
+var rotationAngle = 0;
+
 engine.drawBall = function () {
   ball.x = ball.x + ball.vx;
   ball.y = ball.y + ball.vy;
@@ -75,11 +80,12 @@ engine.drawBall = function () {
   if (ball.x > canvas.width - ball.r || ball.x < 0 + ball.r) { // The ball bounces off the sides
     ball.vx = -1 * ball.vx;
   }
-  ctx.beginPath();
-  ctx.fillStyle = "white";
-  ctx.arc(ball.x, ball.y, ball.r * 2, 0, Math.PI*2, true);
-  ctx.closePath();
-  ctx.fill();
+  ctx.save(); // Save the current state of the context
+  ctx.translate(ball.x, ball.y); // Translate to the ball's position
+  rotationAngle += 0.1;
+  ctx.rotate(rotationAngle)
+  ctx.drawImage(ballImage, -ball.r * 2.5, -ball.r * 2.5, ball.r * 7, ball.r * 7); // Draw the image centered on the ball's position
+  ctx.restore();
 };
 
 engine.checkCollision = function (paddle, ball) {
@@ -96,9 +102,9 @@ engine.checkCollision = function (paddle, ball) {
       ball.vx += 1;
       ball.vy += 1;
       Player.score += 1;
-      if (ball.r > ball.minSize && ball.r <= ball.startSize) {
-        ball.r -= 1;
-      }
+      // if (ball.r > ball.minSize && ball.r <= ball.startSize) {
+      //   ball.r -= 1;
+      // }
     }
   }
 };
