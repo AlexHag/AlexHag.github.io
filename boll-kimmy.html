@@ -42,7 +42,7 @@ var ball = {
 };
 
 var paddle1 = {
-  w: 60,
+  w: 80,
   h: 10,
   x: (canvas.width - 50) / 2,
   y: canvas.height - 11
@@ -102,9 +102,9 @@ engine.checkCollision = function (paddle, ball) {
       ball.vx += 1;
       ball.vy += 1;
       Player.score += 1;
-      // if (ball.r > ball.minSize && ball.r <= ball.startSize) {
-      //   ball.r -= 1;
-      // }
+      if (ball.r > ball.minSize && ball.r <= ball.startSize) {
+        ball.r -= 1;
+      }
     }
   }
 };
