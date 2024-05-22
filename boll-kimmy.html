@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="./css/boll-kimmy.css">
     <title>Document</title>
 </head>
 <body>
@@ -31,8 +31,6 @@ var ball = {
   r: 8,
   x: (canvas.width / 2),
   y: (canvas.height / 2),
-  vx: Math.random() * 60 + -1,
-  vy: Math.random() * 60 + -1,
   center: {
     x: function() {
       return ball.x + ball.r;
@@ -44,17 +42,17 @@ var ball = {
 };
 
 var paddle1 = {
-  w: 10,
-  h: 50,
-  x: 1,
-  y: 0
+  w: 50,
+  h: 10,
+  x: (canvas.width - 50) / 2,
+  y: canvas.height - 11
 };
 
 engine.drawPaddle = function (paddle) {
-  if (paddle.y > canvas.height - paddle.h){
-    paddle.y = canvas.height - paddle.h;
-  } else if (paddle.y < 0) {
-    paddle.y = 0;
+  if (paddle.x > canvas.width - paddle.w){
+    paddle.x = canvas.width - paddle.w;
+  } else if (paddle.x < 0) {
+    paddle.x = 0;
   }
   
   ctx.beginPath();
@@ -67,15 +65,15 @@ engine.drawPaddle = function (paddle) {
 engine.drawBall = function () {
   ball.x = ball.x + ball.vx;
   ball.y = ball.y + ball.vy;
-  if (ball.x < 0) {
+  if (ball.y > canvas.height - ball.r) { // The ball ends the game when it hits the bottom
     engine.endGame();
     return;
   }
-  if (ball.x > canvas.width - ball.r) {
-    ball.vx = -1 * ball.vx;
-  }
-  if (ball.y > canvas.height - ball.r || ball.y < 0 + ball.r) {
+  if (ball.y < 0) { // The ball bounces off the top
     ball.vy = -1 * ball.vy;
+  }
+  if (ball.x > canvas.width - ball.r || ball.x < 0 + ball.r) { // The ball bounces off the sides
+    ball.vx = -1 * ball.vx;
   }
   ctx.beginPath();
   ctx.fillStyle = "white";
@@ -89,11 +87,11 @@ engine.checkCollision = function (paddle, ball) {
     x: (paddle.x + paddle.w) / 2,
     y: (paddle.y + paddle.h) / 2
   };
-  if (ball.x - ball.r <= (paddle.w + paddle.x)) {
-    if ((ball.y + ball.r + ball.r <= paddle.y + paddle.h || ball.y <= paddle.y + paddle.h) && (ball.y + ball.r + ball.r >= paddle.y || ball.y >= paddle.y)) {
-      ball.vx = -1 * ball.vx;
-      if (ball.y < paddleCenter.y) {
-        ball.vy = -1 * ball.vy;
+  if (ball.y + ball.r >= paddle.y) { // Check if the ball hits the paddle
+    if (ball.x + ball.r >= paddle.x && ball.x - ball.r <= paddle.x + paddle.w) { // Check if the ball is within the paddle's width
+      ball.vy = -1 * ball.vy;
+      if (ball.x < paddleCenter.x) {
+        ball.vx = -1 * ball.vx;
       }
       ball.vx += 1;
       ball.vy += 1;
@@ -113,9 +111,9 @@ engine.renderScore = function () {
 engine.startGame = function () {
   STOPPED = false;
   ball.x = (canvas.width / 2);
-  ball.y = (canvas.width / 2);
+  ball.y = (canvas.height - 20);
   ball.vx = Math.random() * 9 + 1;
-  ball.vy = Math.random() * 9 + 1;
+  ball.vy = -10;
   ball.r = ball.startSize;
   Player.score = 0;
   gameloop = setInterval(function() {
@@ -132,31 +130,24 @@ engine.endGame = function () {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   clearInterval(gameloop);
   ctx.font="20px Arial";
-  ctx.fillText("Game Over! Final Score: " + Player.score, canvas.width / 2 - 125, canvas.height / 2);
-  ctx.fillText("Press Enter to Begin!", canvas.width / 2 - 95, canvas.height / 2 + 25);
+  ctx.fillText("Fan va du suger kimmy lol!", 30, canvas.height / 2);
+  ctx.fillText("Du fick: -6969 poäng (" + Player.score + ")", 30, canvas.height / 2 + 25);
 };
 
 engine.mousePosition = function (evt) {
   var gameBounds = canvas.getBoundingClientRect();
-  paddle1.y = evt.clientY - gameBounds.top;
+  paddle1.x = evt.clientX - gameBounds.left - paddle1.w / 2;
 };
 
 ctx.font="20px Arial";
 ctx.fillStyle = 'white';
-ctx.fillText("Press Enter to Begin!", canvas.width / 2 - 95, canvas.height / 2);
-
-window.addEventListener('keydown', function (e) {
-  if (e.keyCode === 27) {
-    engine.endGame();
-  } else if (e.keyCode === 13 && STOPPED) {
-    engine.startGame();
-  }
-});
+ctx.fillText("Kimmy är en studsande boll", canvas.width / 2 - 95, canvas.height / 2);
 
 canvas.addEventListener('mousemove', function (e) {
   if (!STOPPED) {
     return engine.mousePosition(e);
   }
+  engine.startGame();
 });
 
 canvas.addEventListener('touchmove', function (e) {
