@@ -57,8 +57,8 @@
   font-size: 3vh;
   color: white;
   margin-bottom: 10vh;
-  width: 26ch;
-  animation: typing 2s steps(22), blink .5s step-end infinite alternate;
+  width: 15ch;
+  animation: typing 1.5s steps(22), blink .5s step-end infinite alternate;
   white-space: nowrap;
   overflow: hidden;
   border-right: 3px solid;
