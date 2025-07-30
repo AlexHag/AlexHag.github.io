@@ -108,11 +108,6 @@ body {
     margin-right: 1vh;
     padding: 6px;
   }
-  
-  .top-icons img {
-    height: 30px !important;
-    width: 30px !important;
-  }
 }
 
 @media (max-width: 450px) {
@@ -136,11 +131,6 @@ body {
   .top-icons {
     margin-right: 0.5vh;
     padding: 4px;
-  }
-  
-  .top-icons img {
-    height: 25px !important;
-    width: 25px !important;
   }
 }
 
