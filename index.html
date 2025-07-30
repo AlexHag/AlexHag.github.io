@@ -14,9 +14,9 @@
 <body>
 
   <div name="header" id="header" class="header">
-    <a id="github-a" href="https://github.com/AlexHag" target="_blank"><img id="github-img" src="img/github.svg" height="40px" width="40px"></a>
-    <a id="linkedin-a" href="https://www.linkedin.com/in/alex-hagdahl-3871a6213/" target="_blank"><img id="linkedin-img" src="img/linkedin.svg" height="40px" width="40px"></a>
-    <button id="dark-mode-toggle" class="dark-mode-btn">🌙</button>
+    <a class="top-icons" href="https://github.com/AlexHag" target="_blank"><img id="github-img" src="img/github.svg" height="40px" width="40px"></a>
+    <a class="top-icons" href="https://www.linkedin.com/in/alex-hagdahl-3871a6213/" target="_blank"><img id="linkedin-img" src="img/linkedin.svg" height="40px" width="40px"></a>
+    <button class="top-icons" id="dark-mode-toggle"><img id="theme-icon" src="img/lightmode.svg" height="40px" width="40px"></button>
     <a id="header-contact-me-pill" href="#contact">Contact Me</a>
   </div>
     
@@ -182,24 +182,25 @@
 
     // Dark mode functionality
     const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const themeIcon = document.getElementById('theme-icon');
     const body = document.body;
     
     // Check for saved theme preference or default to light mode
     const currentTheme = localStorage.getItem('theme') || 'light';
     if (currentTheme === 'dark') {
       body.setAttribute('data-theme', 'dark');
-      darkModeToggle.textContent = '☀️';
+      themeIcon.src = 'img/darkmode.svg';
     }
     
     darkModeToggle.addEventListener('click', () => {
       const currentTheme = body.getAttribute('data-theme');
       if (currentTheme === 'dark') {
         body.removeAttribute('data-theme');
-        darkModeToggle.textContent = '🌙';
+        themeIcon.src = 'img/lightmode.svg';
         localStorage.setItem('theme', 'light');
       } else {
         body.setAttribute('data-theme', 'dark');
-        darkModeToggle.textContent = '☀️';
+        themeIcon.src = 'img/darkmode.svg';
         localStorage.setItem('theme', 'dark');
       }
     });
