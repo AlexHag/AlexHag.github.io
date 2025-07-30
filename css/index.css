@@ -77,6 +77,62 @@ body {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* Mobile header styles */
+@media (max-width: 900px) {
+  .header {
+    height: 8vh;
+    padding: 0 2vh;
+    justify-content: flex-end;
+  }
+  
+  .header a {
+    margin-right: 2vh;
+  }
+  
+  #header-contact-me-pill {
+    padding: 1vh 2vh;
+    font-size: 2vh;
+    margin-right: 0;
+  }
+  
+  .top-icons {
+    margin-right: 1.5vh;
+    padding: 6px;
+  }
+  
+  .top-icons img {
+    height: 30px !important;
+    width: 30px !important;
+  }
+}
+
+@media (max-width: 450px) {
+  .header {
+    height: 7vh;
+    padding: 0 1vh;
+    justify-content: flex-end;
+  }
+  
+  .header a {
+    margin-right: 1vh;
+  }
+  
+  #header-contact-me-pill {
+    padding: 0.8vh 1.5vh;
+    font-size: 1.8vh;
+  }
+  
+  .top-icons {
+    margin-right: 1vh;
+    padding: 4px;
+  }
+  
+  .top-icons img {
+    height: 25px !important;
+    width: 25px !important;
+  }
+}
+
 
 .first-section {
   background-color: var(--dark-section-bg);
