@@ -7,13 +7,43 @@
   scroll-behavior: smooth;
 }
 
+/* Dark mode variables */
+:root {
+  --bg-color: white;
+  --text-color: black;
+  --header-bg: black;
+  --header-text: white;
+  --section-bg: white;
+  --section-text: black;
+  --dark-section-bg: black;
+  --dark-section-text: white;
+}
+
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --header-bg: #1f1f1f;
+  --header-text: #e0e0e0;
+  --section-bg: #121212;
+  --section-text: #e0e0e0;
+  --dark-section-bg: #1f1f1f;
+  --dark-section-text: #e0e0e0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 .header {
-  background-color: black;
+  background-color: var(--header-bg);
   width: 100%;
   height: 10vh;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  transition: background-color 0.3s ease;
 }
 #github-a {
   display: flex;
@@ -32,22 +62,38 @@
 }
 .header a {
   text-decoration: none;
-  color: white;
+  color: var(--header-text);
   margin-right: 5vh;
+  transition: color 0.3s ease;
 }
 #header-contact-me-pill:hover {
   background-color: rgb(220, 220, 220);
 }
+.dark-mode-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  margin-right: 3vh;
+  transition: background-color 0.3s ease;
+}
+.dark-mode-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
 
 
 .first-section {
-  background-color: black;
+  background-color: var(--dark-section-bg);
   text-align: center;
   padding: 15vh 0vh;
+  transition: background-color 0.3s ease;
 }
 .first-section h1 {
   font-size: 11vh;
-  color: white;
+  color: var(--dark-section-text);
+  transition: color 0.3s ease;
 }
 .typewriter-container {
   display: grid;
@@ -55,13 +101,14 @@
 }
 .first-section p {
   font-size: 3vh;
-  color: white;
+  color: var(--dark-section-text);
   margin-bottom: 10vh;
   width: 15ch;
   animation: typing 1.5s steps(22), blink .5s step-end infinite alternate;
   white-space: nowrap;
   overflow: hidden;
   border-right: 3px solid;
+  transition: color 0.3s ease;
 }
 .first-section a {
   font-size: 2vh;
@@ -97,6 +144,8 @@
 
 .second-section {
   padding: 13vh 27vh;
+  background-color: var(--section-bg);
+  transition: background-color 0.3s ease;
 }
 .second-section-item {
   margin-bottom: 5vh;
@@ -105,19 +154,26 @@
 .second-section-item h2 {
   font-size: 7vh;
   margin-bottom: 5vh;
+  color: var(--section-text);
+  transition: color 0.3s ease;
 }
 .second-section-item h3 {
   font-size: 3vh;
   font-weight: normal;
   margin-bottom: 4vh;
+  color: var(--section-text);
+  transition: color 0.3s ease;
 }
 .second-section-item p {
   font-size: 2vh;
   line-height: 1.7;
+  color: var(--section-text);
+  transition: color 0.3s ease;
 }
 .second-section a {
-  color: black;
+  color: var(--section-text);
   font-size: 2vh;
+  transition: color 0.3s ease;
 }
 @media (max-width: 1250px) {
   .second-section {
@@ -140,14 +196,17 @@
 
 
 .third-section {
-  background-color: black;
-  color: white;
+  background-color: var(--dark-section-bg);
+  color: var(--dark-section-text);
   padding: 13vh 27vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 .third-section h1 {
   font-size: 7vh;
   max-width: 60%;
   margin-bottom: 13vh;
+  color: var(--dark-section-text);
+  transition: color 0.3s ease;
 }
 .interests {
   display: flex;
@@ -159,12 +218,16 @@
   margin-bottom: 5vh;
   font-weight: normal;
   font-size: 3vh;
+  color: var(--dark-section-text);
+  transition: color 0.3s ease;
 }
 .interests-item p {
   padding-right: 20%;
   font-size: 2vh;
   line-height: 1.7;
   margin-bottom: 15vh;
+  color: var(--dark-section-text);
+  transition: color 0.3s ease;
 }
 .something {
   font-size: 4.5vh;
@@ -172,6 +235,8 @@
   margin: auto;
   margin-bottom: 15vh;
   width: 75%;
+  color: var(--dark-section-text);
+  transition: color 0.3s ease;
 }
 @media (max-width: 1250px) {
   .third-section {
@@ -224,6 +289,8 @@
 .contact {
   display: flex;
   padding: 13vh 27vh;
+  background-color: var(--section-bg);
+  transition: background-color 0.3s ease;
 }
 .fcf-text, .fcf-body {
   flex: 1;
@@ -232,11 +299,15 @@
 .fcf-text h1{
   font-size: 5vh;
   margin-bottom: 5vh;
+  color: var(--section-text);
+  transition: color 0.3s ease;
 }
 .fcf-text p {
   width: 70%;
   font-size: 2vh;
   line-height: 1.7;
+  color: var(--section-text);
+  transition: color 0.3s ease;
 }
 #fcf-form {
   display:block;
@@ -247,11 +318,12 @@
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: black;
+  color: var(--section-text);
   text-align: left;
-  background-color: #fff;
+  background-color: var(--section-bg);
   border-radius: 0.25rem;
   max-width: 100%;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 .fcf-form-group {
   margin-bottom: 1rem;
@@ -274,13 +346,13 @@
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
+  color: var(--section-text);
+  background-color: var(--section-bg);
   background-clip: padding-box;
   border: 1px solid #ced4da;
   outline: none;
   border-radius: 0.25rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background-color 0.3s ease, color 0.3s ease;
 }
 .fcf-form-control:focus {
   border: 1px solid #313131;
@@ -295,11 +367,13 @@ textarea.fcf-form-control {
 label.fcf-label {
   display: inline-block;
   margin-bottom: 0.5rem;
+  color: var(--section-text);
+  transition: color 0.3s ease;
 }
 .fcf-btn {
   display: inline-block;
   font-weight: 400;
-  color: #212529;
+  color: var(--section-text);
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
@@ -321,7 +395,7 @@ label.fcf-label {
   }
 }
 .fcf-btn:hover {
-  color: #212529;
+  color: var(--section-text);
   text-decoration: none;
 }
 .fcf-btn:focus, .fcf-btn.focus {
@@ -395,12 +469,13 @@ input[type="submit"].fcf-btn-block, input[type="reset"].fcf-btn-block, input[typ
 
 .footer {
   min-height: 12vh;
-  background-color: black;
-  color: white;
+  background-color: var(--header-bg);
+  color: var(--header-text);
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 2.7vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 .footer-text {
   width: 100%;
@@ -410,7 +485,8 @@ input[type="submit"].fcf-btn-block, input[type="reset"].fcf-btn-block, input[typ
   align-items: center;
 }
 .footer a {
-  color: white;
+  color: var(--header-text);
+  transition: color 0.3s ease;
 }
 .footer a:hover {
   color: rgb(220, 220, 220);
@@ -430,4 +506,34 @@ input[type="submit"].fcf-btn-block, input[type="reset"].fcf-btn-block, input[typ
     margin: auto;
     padding: 0;
   }
+}
+
+/* Dark mode specific form styling */
+[data-theme="dark"] .fcf-form-control {
+  border-color: #444;
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .fcf-form-control:focus {
+  border-color: #666;
+  background-color: #333;
+}
+
+[data-theme="dark"] .fcf-form-control::placeholder {
+  color: #999;
+}
+
+[data-theme="dark"] #error-message {
+  color: #ff6b6b;
+}
+
+[data-theme="dark"] .fcf-btn-primary {
+  background-color: #0066cc;
+  border-color: #0066cc;
+}
+
+[data-theme="dark"] .fcf-btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
 }
