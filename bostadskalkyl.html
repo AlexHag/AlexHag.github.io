@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bostadskalkyl</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0f766e;
+            /* Teal 700 */
+            --primary-light: #2dd4bf;
+            /* Teal 400 */
+            --primary-dark: #134e4a;
+            /* Teal 900 */
+            --bg: #f8fafc;
+            /* Slate 50 */
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            /* Slate 800 */
+            --text-muted: #64748b;
+            /* Slate 500 */
+            --border: #e2e8f0;
+            /* Slate 200 */
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --radius: 12px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0f172a;
+                /* Slate 900 */
+                --card-bg: #1e293b;
+                /* Slate 800 */
+                --text-main: #f8fafc;
+                --text-muted: #94a3b8;
+                --border: #334155;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding: 24px 16px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 24px;
+            text-align: center;
+            letter-spacing: -0.025em;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Form Elements */
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-suffix {
+            position: absolute;
+            right: 12px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        input[type="number"],
+        input[type="text"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+            color: var(--text-main);
+            font-size: 1rem;
+            font-weight: 600;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            -moz-appearance: textfield;
+        }
+
+        input[type="number"]:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Slider Styling */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 4px;
+            margin-top: 12px;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 2px solid var(--card-bg);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            margin-top: -7px;
+            /* Align to center */
+            transition: transform 0.1s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        input[type="range"]:focus {
+            outline: none;
+        }
+
+        /* Specialized Inputs */
+        .dual-input {
+            display: grid;
+            grid-template-columns: 1fr 100px;
+            gap: 12px;
+        }
+
+        /* Results */
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .result-value {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .total-cost {
+            margin-top: 12px;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            border-radius: var(--radius);
+            padding: 24px;
+            color: white;
+            text-align: center;
+        }
+
+        .total-label {
+            opacity: 0.9;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .total-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+
+        .loan-details {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .loan-percent {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            background: var(--bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Bostadskalkyl</h1>
+
+        <!-- Market Section -->
+        <div class="card">
+            <div class="section-title">Bostad & Lån</div>
+
+            <!-- Final Price -->
+            <div class="control-group">
+                <div class="label-row">
+                    <label for="price">Slutpris</label>
+                </div>
+                <div class="input-wrapper">
+                    <input type="text" inputmode="numeric" id="price" value="2 820 000">
+                    <span class="input-suffix">kr</span>
+                </div>
+                <input type="range" id="priceRange" min="1000000" max="4000000" step="10000" value="2820000">
+            </div>
+
+            <!-- Interest Rate -->
+            <div class="control-group">
+                <div class="label-row">
+                    <label for="interest">Ränta</label>
+                </div>
+                <div class="input-wrapper">
+                    <input type="number" id="interest" value="3.84" step="0.01">
+                    <span class="input-suffix">%</span>
+                </div>
+                <input type="range" id="interestRange" min="0" max="15" step="0.01" value="3.84">
+            </div>
+
+            <!-- Fee -->
+            <div class="control-group">
+                <div class="label-row">
+                    <label for="fee">Månadsavgift</label>
+                </div>
+                <div class="input-wrapper">
+                    <input type="text" inputmode="numeric" id="fee" value="940">
+                    <span class="input-suffix">kr</span>
+                </div>
+                <input type="range" id="feeRange" min="500" max="10000" step="10" value="940">
+            </div>
+        </div>
+
+        <!-- Down Payments -->
+        <div class="card">
+            <div class="section-title">Kontantinsats</div>
+
+            <!-- Person 1 -->
+            <div class="control-group">
+                <div class="label-row">
+                    <label>Person 1</label>
+                </div>
+                <div class="dual-input">
+                    <div class="input-wrapper">
+                        <input type="text" inputmode="numeric" id="p1Amount" value="564 000" data-person="1">
+                        <span class="input-suffix">kr</span>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="number" id="p1Percent" value="20" step="0.1" data-person="1">
+                        <span class="input-suffix">%</span>
+                    </div>
+                </div>
+                <input type="range" id="p1Range" min="100000" max="1000000" step="10000" value="564000" data-person="1">
+            </div>
+
+            <!-- Person 2 -->
+            <div class="control-group">
+                <div class="label-row">
+                    <label>Person 2</label>
+                </div>
+                <div class="dual-input">
+                    <div class="input-wrapper">
+                        <input type="text" inputmode="numeric" id="p2Amount" value="564 000" data-person="2">
+                        <span class="input-suffix">kr</span>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="number" id="p2Percent" value="20" step="0.1" data-person="2">
+                        <span class="input-suffix">%</span>
+                    </div>
+                </div>
+                <input type="range" id="p2Range" min="100000" max="1000000" step="10000" value="564000" data-person="2">
+            </div>
+        </div>
+
+        <div class="total-cost">
+            <div class="total-label">Totalt per månad</div>
+            <div class="total-value" id="totalCost">0 kr</div>
+        </div>
+
+        <!-- Results -->
+        <div class="card">
+            <div class="section-title">Kostnad & Lån</div>
+
+            <div class="result-row">
+                <span class="result-label">Lånebelopp</span>
+                <div class="loan-details">
+                    <span class="result-value" id="loanAmount">+ kr</span>
+                    <span class="loan-percent" id="loanPercent">0%</span>
+                </div>
+            </div>
+
+            <div class="result-row">
+                <span class="result-label">Räntekostnad</span>
+                <span class="result-value" id="interestCost">0 kr</span>
+            </div>
+
+            <div class="result-row">
+                <span class="result-label">Amortering</span>
+                <span class="result-value" id="amortCost">0 kr</span>
+            </div>
+
+            <div class="result-row">
+                <span class="result-label">Avgift</span>
+                <span class="result-value" id="feeDisplay">0 kr</span>
+            </div>
+
+            <div class="result-row">
+                <span class="result-label">Total kostnad före ränteavdrag</span>
+                <span class="result-value" id="totalCostWithoutDeduction">0 kr</span>
+            </div>
+
+            <div class="result-row">
+                <span class="result-label">Ränteavdrag</span>
+                <span class="result-value" style="color: var(--primary);" id="taxDeduction">0 kr</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // State
+        const state = {
+            price: 2820000,
+            interest: 3.84, // percent
+            fee: 940,
+            p1: { amount: 423000, percent: 15 },
+            p2: { amount: 564000, percent: 20 }
+        };
+
+        // DOM Elements
+        const els = {
+            price: document.getElementById('price'),
+            priceRange: document.getElementById('priceRange'),
+            interest: document.getElementById('interest'),
+            interestRange: document.getElementById('interestRange'),
+            fee: document.getElementById('fee'),
+            feeRange: document.getElementById('feeRange'),
+            p1: {
+                amount: document.getElementById('p1Amount'),
+                percent: document.getElementById('p1Percent'),
+                range: document.getElementById('p1Range')
+            },
+            p2: {
+                amount: document.getElementById('p2Amount'),
+                percent: document.getElementById('p2Percent'),
+                range: document.getElementById('p2Range')
+            },
+            display: {
+                loanAmount: document.getElementById('loanAmount'),
+                loanPercent: document.getElementById('loanPercent'),
+                interestCost: document.getElementById('interestCost'),
+                amortCost: document.getElementById('amortCost'),
+                feeDisplay: document.getElementById('feeDisplay'),
+                totalCostWithoutDeduction: document.getElementById('totalCostWithoutDeduction'),
+                taxDeduction: document.getElementById('taxDeduction'),
+                totalCost: document.getElementById('totalCost')
+            }
+        };
+
+        // Initialize Interest Slider range to 0-100 as requested
+        els.interestRange.setAttribute('max', '100');
+
+        // Utility
+        // Format: 1000000 -> "1 000 000"
+        const formatValue = (val) => {
+            if (!val && val !== 0) return '';
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        };
+
+        // Parse: "1 000 000" -> 1000000
+        const parseValue = (val) => {
+            if (!val) return 0;
+            return parseFloat(val.toString().replace(/\s/g, '').replace(/,/g, '.')) || 0;
+        };
+
+        // Currency Display Helper
+        const formatMoney = (val) => new Intl.NumberFormat('sv-SE', { style: 'currency', currency: 'SEK', maximumFractionDigits: 0 }).format(val);
+
+        // Live Formatting with Caret Preservation
+        function formatInputLive(el) {
+            const oldVal = el.value;
+            const oldCaret = el.selectionStart;
+
+            // Allow empty field to be empty
+            if (oldVal.trim() === '') {
+                return 0;
+            }
+
+            // Count digits before caret
+            let digitsBefore = 0;
+            for (let i = 0; i < oldCaret; i++) {
+                if (/[0-9]/.test(oldVal[i])) digitsBefore++;
+            }
+
+            const raw = parseValue(oldVal);
+            const formatted = formatValue(raw);
+
+            // Update value if changed (prevents loop/jitter if same)
+            if (oldVal !== formatted) {
+                el.value = formatted;
+
+                // Restore Caret
+                let newCaret = formatted.length; // Default to end if we can't find the position
+                let digitsSeen = 0;
+
+                // Check if we have enough digits to match
+                let totalDigits = 0;
+                for (let char of formatted) if (/[0-9]/.test(char)) totalDigits++;
+
+                // If we had more digits before than exist now (e.g. removed leading zero), 
+                // clamp to total available.
+                if (digitsBefore > totalDigits) digitsBefore = totalDigits;
+
+                if (digitsBefore === 0) {
+                    newCaret = 0;
+                } else {
+                    for (let i = 0; i < formatted.length; i++) {
+                        if (/[0-9]/.test(formatted[i])) digitsSeen++;
+                        if (digitsSeen === digitsBefore) {
+                            newCaret = i + 1;
+                            break;
+                        }
+                    }
+                }
+
+                el.setSelectionRange(newCaret, newCaret);
+            }
+
+            return raw; // Return numerical value for state update
+        }
+
+        // Update Logic
+        function update() {
+            // Sync Inputs with State
+
+            // Price
+            if (document.activeElement !== els.price) els.price.value = formatValue(state.price);
+            els.priceRange.value = state.price;
+
+            // Interest
+            if (document.activeElement !== els.interest) els.interest.value = state.interest;
+            els.interestRange.value = state.interest;
+
+            // Fee
+            if (document.activeElement !== els.fee) els.fee.value = formatValue(state.fee);
+            els.feeRange.value = state.fee;
+
+            // Person 1
+            if (document.activeElement !== els.p1.amount) els.p1.amount.value = formatValue(Math.round(state.p1.amount));
+            if (document.activeElement !== els.p1.percent) els.p1.percent.value = parseFloat(state.p1.percent.toFixed(2));
+            els.p1.range.value = Math.round(state.p1.amount);
+
+            // Person 2
+            if (document.activeElement !== els.p2.amount) els.p2.amount.value = formatValue(Math.round(state.p2.amount));
+            if (document.activeElement !== els.p2.percent) els.p2.percent.value = parseFloat(state.p2.percent.toFixed(2));
+            els.p2.range.value = Math.round(state.p2.amount);
+
+            // Calculations
+            const totalDownPayment = state.p1.amount + state.p2.amount;
+            const loan = Math.max(0, state.price - totalDownPayment);
+            const loanRatio = (loan / state.price) * 100;
+
+            // Amortization Rules
+            // > 70% -> 2% of loan
+            // 50-70% -> 1% of loan
+            // < 50% -> 0%
+            let amortPercent = 0;
+            if (loanRatio > 70) amortPercent = 2;
+            else if (loanRatio > 50) amortPercent = 1;
+
+            const amortCostYear = loan * (amortPercent / 100);
+            const amortCostMonth = amortCostYear / 12;
+
+            const interestCostYear = loan * (state.interest / 100);
+            const interestCostMonth = interestCostYear / 12;
+
+            const totalCostWithoutDeduction = interestCostMonth + amortCostMonth + state.fee;
+
+            // Tax Deduction (Ränteavdrag)
+            // 30% of interest costs up to 100,000 SEK/year
+            // 21% for amounts exceeding 100,000 SEK/year
+            let deductionYear = 0;
+            if (interestCostYear <= 100000) {
+                deductionYear = interestCostYear * 0.30;
+            } else {
+                deductionYear = 30000 + (interestCostYear - 100000) * 0.21;
+            }
+            const deductionMonth = deductionYear / 12;
+            const totalCost = totalCostWithoutDeduction - deductionMonth;
+
+            // Render Outputs
+            els.display.loanAmount.innerText = formatMoney(loan);
+            els.display.loanPercent.innerText = loanRatio.toFixed(1) + '%';
+
+            els.display.interestCost.innerText = formatMoney(interestCostMonth);
+            els.display.amortCost.innerText = formatMoney(amortCostMonth) + ` (${amortPercent}%)`;
+            els.display.feeDisplay.innerText = formatMoney(state.fee);
+            els.display.totalCostWithoutDeduction.innerText = formatMoney(totalCostWithoutDeduction);
+            els.display.taxDeduction.innerText = "+ " + formatMoney(deductionMonth);
+            els.display.totalCost.innerText = formatMoney(totalCost);
+        }
+
+        // Handlers
+        function handlePriceChange(e) {
+            // Live Format
+            const val = formatInputLive(e.target);
+            state.price = val;
+            // Logic
+            state.p1.amount = state.price * (state.p1.percent / 100);
+            state.p2.amount = state.price * (state.p2.percent / 100);
+            update();
+        }
+
+        function handleAmountChange(person, e) {
+            // Live Format
+            const val = formatInputLive(e.target);
+            const pObj = state['p' + person];
+            pObj.amount = val;
+            // Logic
+            if (state.price > 0) {
+                pObj.percent = (pObj.amount / state.price) * 100;
+            } else {
+                pObj.percent = 0;
+            }
+            update();
+        }
+
+        function handlePercentChange(person, val) {
+            const pObj = state['p' + person];
+            pObj.percent = parseFloat(val) || 0;
+            // Update amount
+            pObj.amount = state.price * (pObj.percent / 100);
+            update();
+        }
+
+        els.price.addEventListener('input', handlePriceChange);
+        els.priceRange.addEventListener('input', (e) => { state.price = parseValue(e.target.value); handlePriceChange({ target: { value: state.price, selectionStart: 0, setSelectionRange: () => { } } }); }); 
+    </script>
+    <script>
+        els.price.addEventListener('input', handlePriceChange);
+
+        els.priceRange.addEventListener('input', (e) => {
+            state.price = parseFloat(e.target.value);
+            state.p1.amount = state.price * (state.p1.percent / 100);
+            state.p2.amount = state.price * (state.p2.percent / 100);
+            update();
+        });
+
+        // Interest
+        els.interest.addEventListener('input', (e) => { state.interest = parseFloat(e.target.value) || 0; update(); });
+        els.interestRange.addEventListener('input', (e) => { state.interest = parseFloat(e.target.value) || 0; update(); });
+
+        // Fee
+        els.fee.addEventListener('input', (e) => {
+            const val = formatInputLive(e.target);
+            state.fee = val;
+            update();
+        });
+        els.feeRange.addEventListener('input', (e) => { state.fee = parseFloat(e.target.value) || 0; update(); });
+
+        // Person Inputs helper
+        ['1', '2'].forEach(p => {
+            els['p' + p].amount.addEventListener('input', (e) => handleAmountChange(p, e));
+            els['p' + p].range.addEventListener('input', (e) => {
+                const val = parseFloat(e.target.value);
+                const pObj = state['p' + p];
+                pObj.amount = val;
+                if (state.price > 0) {
+                    pObj.percent = (pObj.amount / state.price) * 100;
+                }
+                update();
+            });
+            els['p' + p].percent.addEventListener('input', (e) => handlePercentChange(p, e.target.value));
+        });
+
+        // Init
+        update();
+    </script>
+</body>
+
+</html>
