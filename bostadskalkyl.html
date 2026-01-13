@@ -367,23 +367,38 @@
             </div>
 
             <div class="result-row">
-                <span class="result-label">Amortering</span>
-                <span class="result-value" id="amortCost">0 kr</span>
-            </div>
-
-            <div class="result-row">
                 <span class="result-label">Avgift</span>
                 <span class="result-value" id="feeDisplay">0 kr</span>
             </div>
 
             <div class="result-row">
-                <span class="result-label">Total kostnad före ränteavdrag</span>
-                <span class="result-value" id="totalCostWithoutDeduction">0 kr</span>
+                <span class="result-label">Amortering</span>
+                <span class="result-value" id="amortCost">0 kr</span>
+            </div>
+
+            <div class="result-row">
+                <span class="result-label">Avgift + Räntekostnad</span>
+                <span class="result-value" id="feePlusInterest">0 kr</span>
+            </div>
+
+            <div class="result-row">
+                <span class="result-label">Avgift + Räntekostnad + Amortering</span>
+                <span class="result-value" id="feePlusInterestPlusAmort">0 kr</span>
             </div>
 
             <div class="result-row">
                 <span class="result-label">Ränteavdrag</span>
                 <span class="result-value" style="color: var(--primary);" id="taxDeduction">0 kr</span>
+            </div>
+
+            <div class="result-row">
+                <span class="result-label">Avgift + Räntekostnad + Amortering - Ränteavdrag</span>
+                <span class="result-value" id="feePlusInterestPlusAmortMinusDeduction">0 kr</span>
+            </div>
+
+            <div class="result-row">
+                <span class="result-label">Avgift + Räntekostnad - Ränteavdrag</span>
+                <span class="result-value" id="feePlusInterestMinusDeduction">0 kr</span>
             </div>
         </div>
 
@@ -421,11 +436,18 @@
                 loanAmount: document.getElementById('loanAmount'),
                 loanPercent: document.getElementById('loanPercent'),
                 interestCost: document.getElementById('interestCost'),
-                amortCost: document.getElementById('amortCost'),
                 feeDisplay: document.getElementById('feeDisplay'),
-                totalCostWithoutDeduction: document.getElementById('totalCostWithoutDeduction'),
+                amortCost: document.getElementById('amortCost'),
+
+                totalCost: document.getElementById('totalCost'),
+
+                feePlusInterest: document.getElementById('feePlusInterest'),
+                feePlusInterestPlusAmort: document.getElementById('feePlusInterestPlusAmort'),
+                
                 taxDeduction: document.getElementById('taxDeduction'),
-                totalCost: document.getElementById('totalCost')
+
+                feePlusInterestPlusAmortMinusDeduction: document.getElementById('feePlusInterestPlusAmortMinusDeduction'),
+                feePlusInterestMinusDeduction: document.getElementById('feePlusInterestMinusDeduction')
             }
         };
 
@@ -546,8 +568,6 @@
             const interestCostYear = loan * (state.interest / 100);
             const interestCostMonth = interestCostYear / 12;
 
-            const totalCostWithoutDeduction = interestCostMonth + amortCostMonth + state.fee;
-
             // Tax Deduction (Ränteavdrag)
             // 30% of interest costs up to 100,000 SEK/year
             // 21% for amounts exceeding 100,000 SEK/year
@@ -557,19 +577,31 @@
             } else {
                 deductionYear = 30000 + (interestCostYear - 100000) * 0.21;
             }
-            const deductionMonth = deductionYear / 12;
-            const totalCost = totalCostWithoutDeduction - deductionMonth;
+            const deductionMonth = deductionYear / 12; // Ränteavdrag
+
+            const feePlusInterest = state.fee + interestCostMonth;
+            const feePlusInterestPlusAmort = state.fee + interestCostMonth + amortCostMonth;
+            const feePlusInterestPlusAmortMinusDeduction = state.fee + interestCostMonth + amortCostMonth - deductionMonth;
+            const feePlusInterestMinusDeduction = state.fee + interestCostMonth - deductionMonth;
 
             // Render Outputs
             els.display.loanAmount.innerText = formatMoney(loan);
             els.display.loanPercent.innerText = loanRatio.toFixed(1) + '%';
 
             els.display.interestCost.innerText = formatMoney(interestCostMonth);
-            els.display.amortCost.innerText = formatMoney(amortCostMonth) + ` (${amortPercent}%)`;
             els.display.feeDisplay.innerText = formatMoney(state.fee);
-            els.display.totalCostWithoutDeduction.innerText = formatMoney(totalCostWithoutDeduction);
-            els.display.taxDeduction.innerText = "+ " + formatMoney(deductionMonth);
-            els.display.totalCost.innerText = formatMoney(totalCost);
+            els.display.amortCost.innerText = formatMoney(amortCostMonth) + ` (${amortPercent}%)`;
+
+            els.display.feePlusInterest.innerText = formatMoney(feePlusInterest);
+            els.display.feePlusInterestPlusAmort.innerText = formatMoney(feePlusInterestPlusAmort);
+
+            els.display.taxDeduction.innerText = "- " + formatMoney(deductionMonth);
+
+            els.display.feePlusInterestPlusAmortMinusDeduction.innerText = formatMoney(feePlusInterestPlusAmortMinusDeduction);
+            els.display.feePlusInterestMinusDeduction.innerText = formatMoney(feePlusInterestMinusDeduction);
+
+            // Render total cost
+            els.display.totalCost.innerText = formatMoney(feePlusInterestPlusAmortMinusDeduction);
         }
 
         // Handlers
